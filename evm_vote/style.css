@@ -114,9 +114,10 @@
 /* Row definition */
 .evm-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   border-bottom: 2px solid #94a3b8;
-  height: 64px;
+  min-height: 64px;
+  height: auto;
   transition: background-color 0.2s ease;
 }
 
@@ -130,7 +131,6 @@
 
 /* Cells */
 .evm-cell {
-  height: 100%;
   display: flex;
   align-items: center;
   border-right: 2px solid #94a3b8;
@@ -158,6 +158,9 @@
 .candidate-name {
   font-weight: 600;
   color: #0f172a;
+  line-height: 1.25;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .cell-symbol {
@@ -257,4 +260,49 @@
 /* Read only */
 .is-read-only .evm-blue-button {
   cursor: not-allowed !important;
+}
+
+/* Mobile responsiveness adjustments */
+@media (max-width: 480px) {
+  .cell-sl-no {
+    width: 8%;
+    font-size: 0.85rem;
+  }
+  .cell-candidate {
+    width: 54%;
+    padding: 0 6px;
+  }
+  .candidate-name {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+  .cell-symbol {
+    width: 16%;
+    padding: 2px;
+  }
+  .symbol-container {
+    width: 36px;
+    height: 36px;
+  }
+  .cell-led {
+    width: 10%;
+  }
+  .cell-btn {
+    width: 12%;
+  }
+  .evm-blue-button {
+    width: 32px;
+    height: 32px;
+  }
+  .evm-casing {
+    padding: 8px;
+    border-width: 4px;
+  }
+  .evm-status-bar {
+    padding: 8px 12px;
+    margin-bottom: 10px;
+  }
+  .evm-brand {
+    font-size: 0.75rem;
+  }
 }
