@@ -1,0 +1,6 @@
+{
+  "name": "EVM Voting Machine",
+  "author": "Antigravity",
+  "version": "1.0.0",
+  "supportedFieldTypes": ["select_one"]
+}

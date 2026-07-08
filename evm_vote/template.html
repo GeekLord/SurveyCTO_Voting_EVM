@@ -1,0 +1,59 @@
+<div class="evm-plugin-root">
+  <div class="question-header">
+    <label class="plugin-label default-question-text-size">{{{LABEL}}}</label>
+    {{#HINT}}
+      <p class="plugin-hint default-hint-text-size">{{{HINT}}}</p>
+    {{/HINT}}
+  </div>
+
+  <div class="evm-casing">
+    <!-- Status Panel -->
+    <div class="evm-status-bar">
+      <div class="evm-brand">ELECTRONIC VOTING MACHINE</div>
+      <div class="evm-indicators">
+        <div class="indicator-group">
+          <div class="evm-status-led led-green" id="ready-led"></div>
+          <span class="indicator-lbl">READY</span>
+        </div>
+        <div class="indicator-group">
+          <div class="evm-status-led led-red-off" id="voted-led"></div>
+          <span class="indicator-lbl">VOTE CAST</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ballot Paper containing choices -->
+    <div class="evm-ballot-sheet">
+      {{#CHOICES}}
+        <div class="evm-row" id="row-{{CHOICE_VALUE}}" data-value="{{CHOICE_VALUE}}" data-index="{{CHOICE_INDEX}}">
+          <!-- Serial Number (Populated in JS) -->
+          <div class="evm-cell cell-sl-no"></div>
+          
+          <!-- Candidate / Party Name -->
+          <div class="evm-cell cell-candidate">
+            <span class="candidate-name default-answer-text-size">{{{CHOICE_LABEL}}}</span>
+          </div>
+          
+          <!-- Party Symbol -->
+          <div class="evm-cell cell-symbol">
+            <div class="symbol-container" data-choice-value="{{CHOICE_VALUE}}">
+              {{#CHOICE_IMAGE}}
+                <img src="{{CHOICE_IMAGE}}" alt="symbol" class="party-img" />
+              {{/CHOICE_IMAGE}}
+            </div>
+          </div>
+          
+          <!-- Red LED Vote Confirmed -->
+          <div class="evm-cell cell-led">
+            <div class="candidate-led" id="led-{{CHOICE_VALUE}}"></div>
+          </div>
+          
+          <!-- Blue Vote Button -->
+          <div class="evm-cell cell-btn">
+            <button type="button" class="evm-blue-button" id="btn-{{CHOICE_VALUE}}" data-value="{{CHOICE_VALUE}}"></button>
+          </div>
+        </div>
+      {{/CHOICES}}
+    </div>
+  </div>
+</div>
