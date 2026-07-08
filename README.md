@@ -162,19 +162,15 @@ sequenceDiagram
     Iframe->>Iframe: Check image loading and fallback to inline SVGs on error
     Iframe->>Iframe: Check CURRENT_ANSWER and READONLY states
     
-    rect rgb(240, 248, 255)
-        Note over Iframe: Active User Voting Flow
-        Iframe->>Iframe: User clicks blue button next to candidate
-        Iframe->>Iframe: Play electronic beep sound (Web Audio API)
-        Iframe->>Iframe: Update DOM LEDs and lock buttons
-        Iframe->>Host: setAnswer(selected_value)
-    end
+    Note over Iframe: Active User Voting Flow
+    Iframe->>Iframe: User clicks blue button next to candidate
+    Iframe->>Iframe: Play electronic beep sound (Web Audio API)
+    Iframe->>Iframe: Update DOM LEDs and lock buttons
+    Iframe->>Host: setAnswer(selected_value)
     
-    rect rgb(255, 240, 245)
-        Note over Host: Answer Clearing Flow
-        Host->>Iframe: clearAnswer()
-        Iframe->>Iframe: Reset all LEDs, unlock buttons, clear variables
-    end
+    Note over Host: Answer Clearing Flow
+    Host->>Iframe: clearAnswer()
+    Iframe->>Iframe: Reset all LEDs, unlock buttons, clear variables
 ```
 
 ---
