@@ -104,33 +104,72 @@
           '</svg>'
   };
   
-  // Inject SVGs if choice has no CHOICE_IMAGE
-  var symbolContainers = document.querySelectorAll('.symbol-container');
-  symbolContainers.forEach(function (container) {
+  // Map cpim to cpi just in case
+  svgs.cpim = svgs.cpi;
+
+  // Robust function to check a container and inject the fallback SVG if needed
+  function checkAndInjectSVG(container) {
     var val = container.getAttribute('data-choice-value');
-    if (container.children.length === 0 && svgs[val]) {
+    if (!svgs[val]) return;
+
+    // If it already has the SVG, we don't need to do anything
+    if (container.querySelector('.party-svg')) {
+      return;
+    }
+
+    var img = container.querySelector('.party-img');
+    var text = (container.textContent || '').toLowerCase();
+    
+    // Check if the container content contains typical SurveyCTO/ODK error keywords
+    var hasErrorText = text.indexOf('not found') !== -1 || 
+                       text.indexOf('file reference') !== -1 || 
+                       text.indexOf('error') !== -1;
+                       
+    var isImageBroken = false;
+    if (img) {
+      // If image loading completed but its naturalWidth is 0, it failed to load
+      if (img.complete && (typeof img.naturalWidth !== 'undefined' && img.naturalWidth === 0)) {
+        isImageBroken = true;
+      }
+    }
+
+    // Inject SVG if:
+    // - No image element is present
+    // - OR there is a SurveyCTO error message
+    // - OR there is an image element but it's broken
+    if (!img || hasErrorText || isImageBroken) {
       container.innerHTML = svgs[val];
     }
-  });
+  }
 
-  // Fallback to SVGs if CHOICE_IMAGE fails to load (broken image icon)
+  // Initial immediate SVG injection check
+  var symbolContainers = document.querySelectorAll('.symbol-container');
+  symbolContainers.forEach(checkAndInjectSVG);
+
+  // Set up event listeners for images to handle lazy/delayed loading or failure
   var partyImages = document.querySelectorAll('.party-img');
   partyImages.forEach(function (img) {
     img.addEventListener('error', function () {
       var container = img.parentElement;
-      var val = container.getAttribute('data-choice-value');
-      if (svgs[val]) {
-        container.innerHTML = svgs[val];
+      if (container) {
+        checkAndInjectSVG(container);
       }
     });
-    // Force immediate SVG fallback if image is already broken/not loaded
-    if (img.complete && img.naturalWidth === 0) {
+    img.addEventListener('load', function () {
       var container = img.parentElement;
-      var val = container.getAttribute('data-choice-value');
-      if (svgs[val]) {
-        container.innerHTML = svgs[val];
+      if (container) {
+        checkAndInjectSVG(container);
       }
-    }
+    });
+  });
+
+  // Run checks at intervals to handle late/dynamic injection by the SurveyCTO player
+  var intervals = [50, 200, 500, 1000, 2000];
+  intervals.forEach(function (delay) {
+    setTimeout(function () {
+      var containers = document.querySelectorAll('.symbol-container');
+      containers.forEach(checkAndInjectSVG);
+    }, delay);
   });
 
   // Sound Beep Player using Web Audio API
