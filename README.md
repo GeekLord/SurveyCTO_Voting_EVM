@@ -159,7 +159,7 @@ sequenceDiagram
     
     Host->>Iframe: Inject template.html & data (fieldProperties)
     Note over Iframe: DOM rendered via Mustache<br/>script.js and style.css loaded
-    Iframe->>Iframe: Check image loading; fallback to inline SVGs on error
+    Iframe->>Iframe: Check image loading and fallback to inline SVGs on error
     Iframe->>Iframe: Check CURRENT_ANSWER and READONLY states
     
     rect rgb(240, 248, 255)
